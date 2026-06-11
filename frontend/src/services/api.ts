@@ -1,6 +1,9 @@
 import { Client, Profile, Matchmaker, MatchScoreResult } from '../types';
 
-const API_BASE = 'http://localhost:3001/api';
+let API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3001/api';
+if (API_BASE && !API_BASE.endsWith('/api') && !API_BASE.endsWith('/api/')) {
+  API_BASE = API_BASE.replace(/\/$/, '') + '/api';
+}
 
 export async function loginMatchmaker(username: string, password?: string): Promise<Matchmaker> {
   const res = await fetch(`${API_BASE}/auth/login`, {
